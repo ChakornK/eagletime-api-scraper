@@ -7,8 +7,8 @@ var messages_api = "";
 var classes_api = "";
 
 async function getCalendar() {
-	console.log("fetching https://eagletime.appazur.com/a?age=1&ua=1&v=2");
-	calendar_api = await (await fetch("https://eagletime.appazur.com/a?age=1&ua=1&v=2")).json();
+	console.log("fetching https://eagletime.appazur.com/a?age=1&ua=1&v=2&dfmt=html");
+	calendar_api = await (await fetch("https://eagletime.appazur.com/a?age=1&ua=1&v=2&dfmt=html")).text();
 }
 getCalendar();
 
