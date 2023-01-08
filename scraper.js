@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const express = require("express");
+const { response } = require("express");
 const app = express();
 
 var calendar_api = "";
@@ -8,7 +9,7 @@ var classes_api = "";
 
 async function getCalendar() {
 	console.log("fetching https://eagletime.appazur.com/a?age=1&ua=1&v=2&dfmt=html");
-	calendar_api = await (await fetch("https://eagletime.appazur.com/a?age=1&ua=1&v=2&dfmt=html")).text();
+	calendar_api = await (await fetch("https://eagletime.appazur.com/a?age=1&ua=1&v=2&dfmt=html")).json();
 }
 getCalendar();
 
@@ -17,6 +18,26 @@ async function getMessages() {
 	messages_api = await (await fetch("https://eagletime.appazur.com/m/json?limit=50")).json();
 }
 getMessages();
+
+async function getMessageUrl(url) {
+	console.log("fetching", url);
+	var message;
+	await fetch(url)
+		.then((response) => response.text())
+		.catch((err) => console.error(err))
+		.then((data) => {
+			// console.log(data);
+			message = data;
+		});
+	message = message
+		.replace(/src="\//g, 'src="https://eagletime.appazur.com/')
+		.replace(/href="\//g, 'href="https://eagletime.appazur.com/')
+		.replace(/<head>(?:.|\n|\r)+?<\/head>/gm, "")
+		.replace(/<script(?:.|\n|\r)+?<\/script>/gm, "")
+		.replace('<div class="subject">', "<h2>")
+		.replace("</div>", "</h2>");
+	return message;
+}
 
 async function getClasses() {
 	console.log("fetching https://eagletime.appazur.com/api/f");
@@ -75,4 +96,8 @@ app.get("/block", (req, res) => {
 });
 app.get("/weather", (req, res) => {
 	res.send(weather_api);
+});
+app.get("/message/*", async (req, res) => {
+	console.log(req.params[0]);
+	res.send(await getMessageUrl(`https://eagletime.appazur.com/m/${req.params[0]}`));
 });
