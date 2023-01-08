@@ -52,8 +52,8 @@ async function getBlock() {
 getBlock();
 
 async function getWeather() {
-	console.log("fetching https://eagletime.appazur.com/api/weather/current");
-	weather_api = await (await fetch("https://eagletime.appazur.com/api/weather/current")).json();
+	console.log("fetching https://api.openweathermap.org/data/2.5/weather?lat=49.1705885&lon=-122.8337119&units=metric&appid=APITOKENHERE");
+	weather_api = await (await fetch("https://api.openweathermap.org/data/2.5/weather?lat=49.1705885&lon=-122.8337119&units=metric&appid=APITOKENHERE")).json();
 }
 getWeather();
 
