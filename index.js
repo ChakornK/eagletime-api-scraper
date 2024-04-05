@@ -1,6 +1,15 @@
 const express = require("express");
 const app = express();
 
+const {
+	getCalendar,
+	getMessages,
+	getClasses,
+	getBlock,
+	getWeather,
+	getMessageUrl,
+} = require("./scraper.js");
+
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", req.get("Origin") || "*");
 	res.header("Access-Control-Allow-Credentials", "true");
@@ -20,20 +29,20 @@ app.listen(3000, () => {
 	console.log("Application started and Listening on port 3000");
 });
 
-app.get("/calendar", (req, res) => {
-	res.send(require("./scraper.js").getData().calendar_api);
+app.get("/calendar", async (req, res) => {
+	res.send(await getCalendar());
 });
-app.get("/messages", (req, res) => {
-	res.send(require("./scraper.js").getData().messages_api);
+app.get("/messages", async (req, res) => {
+	res.send(await getMessages());
 });
-app.get("/classes", (req, res) => {
-	res.send(require("./scraper.js").getData().classes_api);
+app.get("/classes", async (req, res) => {
+	res.send(await getClasses());
 });
-app.get("/block", (req, res) => {
-	res.send(require("./scraper.js").getData().block_api);
+app.get("/block", async (req, res) => {
+	res.send(await getBlock());
 });
-app.get("/weather", (req, res) => {
-	res.send(require("./scraper.js").getData().weather_api);
+app.get("/weather", async (req, res) => {
+	res.send(await getWeather());
 });
 app.get("/message/*", async (req, res) => {
 	console.log(req.params[0]);
