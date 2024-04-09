@@ -65,7 +65,7 @@ function getBlock() {
 function getWeather() {
 	return new Promise((resolve, reject) => {
 		fetch(
-			`https://api.openweathermap.org/data/2.5/weather?lat=49.1705885&lon=-122.8337119&units=metric&appid=${process.env.OPENWEATHER_API_KEY}`
+			`https://api.openweathermap.org/data/2.5/weather?lat=49.181908&lon=-122.797162&units=metric&appid=${process.env.OPENWEATHER_API_KEY}`
 		)
 			.then((response) => response.json())
 			.catch(reject)
